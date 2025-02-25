@@ -18,8 +18,9 @@ certifi
 
 #pip install -r requirements.txt
 
-# uvicorn app.main:app --reload
 # python -m venv venv
 # venv\Scripts\activate
 # pip install -r requirements.txt
-# Set-ExecutionPolicy Unrestricted -Scope CurrentUser
+# uvicorn app.main:app --reload --port 8080
+
+# Set-ExecutionPolicy Unrestricted -Scope CurrentUser (POWERSHELL/CHINO)
