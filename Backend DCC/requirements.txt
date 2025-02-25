@@ -1,0 +1,19 @@
+# 🔹 FastAPI y Uvicorn (servidor ASGI)
+fastapi
+uvicorn
+
+# 🔹 Conexión a MongoDB con PyMongo
+pymongo
+motor  # Si decides usar consultas asíncronas con MongoDB
+
+# 🔹 Manejo de variables de entorno
+pydantic-settings
+
+# 🔹 Validación de correos electrónicos en Pydantic
+email-validator
+
+# 🔹 Certificados SSL/TLS para MongoDB Atlas
+certifi
+
+
+#pip install -r requirements.txt
