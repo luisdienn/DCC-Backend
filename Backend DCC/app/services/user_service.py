@@ -1,15 +1,12 @@
-from ..models.user_model import UserModel
-from ..core.database import database
-from bson import ObjectId
+from app.repositories.user_repository import UserRepository
+from app.schemas.user_schema import UserCreateSchema
 
-users_collection = database["users"]
+class UserService:
+    def __init__(self, repository: UserRepository):
+        self.repository = repository  # Inyectamos el repositorio
 
-async def create_user(user_data: UserModel):
-    user_dict = user_data.dict()
-    new_user = await users_collection.insert_one(user_dict)
-    return str(new_user.inserted_id)
+    async def create_user(self, user_data: UserCreateSchema):
+        return await self.repository.create_user(user_data)
 
-async def get_users():
-    users_cursor = users_collection.find({})
-    users = await users_cursor.to_list(length=100)
-    return [{**user, "id": str(user["_id"])} for user in users]
+    async def get_user_by_email(self, email: str):
+        return await self.repository.get_user_by_email(email)
