@@ -1,11 +1,15 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, HttpUrl
+from typing import Optional
+from datetime import datetime
 
 class UserCreateSchema(BaseModel):
-    name: str
-    email: EmailStr
-    password: str  # La API recibe la contraseña en texto plano
+    nombre: str
+    correo: EmailStr
 
 class UserResponseSchema(BaseModel):
     id: str
-    name: str
-    email: EmailStr  # No devolvemos la contraseña
+    nombre: str
+    correo: EmailStr
+    imagen_perfil: Optional[HttpUrl]
+    fecha_creacion: datetime
+    rol: Optional[str] = "estudiante"

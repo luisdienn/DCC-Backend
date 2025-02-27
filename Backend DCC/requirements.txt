@@ -15,12 +15,16 @@ email-validator
 # 🔹 Certificados SSL/TLS para MongoDB Atlas
 certifi
 
+# 🔹 HTTP Client para OAuth y consumo de APIs externas
+httpx
+
 
 #pip install -r requirements.txt
-
 # python -m venv venv
 # venv\Scripts\activate
 # pip install -r requirements.txt
 # uvicorn app.main:app --reload --port 8080
 
+
+# Si tienes problemas con permisos en PowerShell, ejecuta:
 # Set-ExecutionPolicy Unrestricted -Scope CurrentUser (POWERSHELL/CHINO)

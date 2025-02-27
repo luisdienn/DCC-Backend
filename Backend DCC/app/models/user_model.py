@@ -1,15 +1,14 @@
-from pydantic import BaseModel, EmailStr
-from typing import Optional, ClassVar  # Agregamos ClassVar
+from pydantic import BaseModel, EmailStr, HttpUrl
+from typing import Optional
+from datetime import datetime
 
 class UserModel(BaseModel):
-    #id: Optional[str] = None
-    name: str
-    email: EmailStr
-    hashed_password: str
-
-    collection_name: ClassVar[str] = "users"  # <-- Corrección
+    id: Optional[str] = None
+    nombre: str
+    correo: EmailStr
+    imagen_perfil: Optional[HttpUrl]
+    fecha_creacion: datetime = datetime.utcnow()
+    rol: Optional[str] = "estudiante"
 
     class Config:
-        from_attributes = True  # Cambiar de `orm_mode = True` a `from_attributes = True`
-
-    collection_name = "users"
+        from_attributes = True

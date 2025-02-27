@@ -1,12 +1,16 @@
 from fastapi import FastAPI
-from .routes.route import router  # Asegúrate de importar correctamente el router
+from app.api.v1.routes import router as api_router
+from app.core.database import client
 
-# Instancia de la aplicación FastAPI
-app = FastAPI(
-    title="FastAPI + MongoDB API",
-    description="API con FastAPI y MongoDB",
-    version="1.0.0"
-)
+app = FastAPI(title="FastAPI + MongoDB + Google OAuth2 API")
 
-# Registramos el router para las rutas de usuario
-app.include_router(router, prefix="/api")  # Usamos el prefijo /api
+app.include_router(api_router, prefix="/api")
+
+@app.on_event("startup")
+async def startup():
+    print("Conectado a MongoDB...")
+
+@app.on_event("shutdown")
+async def shutdown():
+    client.close()
+    print("Desconectado de MongoDB.")

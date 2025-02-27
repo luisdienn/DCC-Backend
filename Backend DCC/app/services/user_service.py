@@ -1,5 +1,5 @@
 from ..models.user_model import UserModel
-from ..database import database
+from ..core.database import database
 from bson import ObjectId
 
 users_collection = database["users"]
