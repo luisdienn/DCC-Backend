@@ -1,7 +1,7 @@
 from pydantic import BaseModel,EmailStr
-from typing import Optional, List
+from typing import List
 from datetime import datetime
-from models.courses_model import CoursesModel
+from .courses_model import CoursesModel
 
 class ProfessorModel(BaseModel):
     correo: EmailStr
