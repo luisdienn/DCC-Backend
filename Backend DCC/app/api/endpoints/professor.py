@@ -18,8 +18,6 @@ async def search_professors(name: str, service: ProfessorService = Depends(lambd
     return professors
 
 
-
-
 #Create
 @router.post("/create", response_model=str)
 async def create_professor(professor: ProfessorResponseSchema, service: ProfessorService = Depends(lambda: professor_service)):
