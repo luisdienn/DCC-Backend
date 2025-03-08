@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from app.api.routes import router as api_router
+from fastapi.middleware.cors import CORSMiddleware
 # --------- REPOSITORIES --------- #
 from app.repositories.user_repository import UserRepository
 from app.repositories.professor_repository import ProfessorRepository
@@ -30,6 +31,14 @@ review_service = ReviewService(review_repo)
 course_service = CourseService(course_repo)
 
 app.include_router(api_router, prefix="/api")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # En producción, cambiar por los dominios permitidos
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.on_event("startup")
 async def startup():
