@@ -1,13 +1,9 @@
 from pydantic import BaseModel,EmailStr
 from typing import Optional, List
 from datetime import datetime
-
-class CoursesModel(BaseModel):
-    id: str
-    nombre: str
+from models.courses_model import CoursesModel
 
 class ProfessorModel(BaseModel):
-    id: Optional[str] = None
     correo: EmailStr
     nombre: str
     apellidos: str

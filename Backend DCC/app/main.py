@@ -8,7 +8,7 @@ from app.core.database import client, users_collection, professors_collection
 
 app = FastAPI(title="FastAPI + MongoDB + Google OAuth2 API")
 
-# 🔹 Inyección de dependencias Repositories
+# Inyección de dependencias Repositories
 user_repo = UserRepository(users_collection)
 professor_repo = ProfessorRepository(professors_collection)
 
