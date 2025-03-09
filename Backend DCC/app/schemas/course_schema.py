@@ -6,4 +6,5 @@ class CourseCreateSchema(BaseModel):
     nombre: str
 
 class CourseResponseSchema(BaseModel):
+    id : str
     nombre: str

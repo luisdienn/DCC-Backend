@@ -13,6 +13,12 @@ class ReviewService:
     async def get_all_reviews(self):
         return await self.repository.get_all_reviews()
     
+    async def get_all_reviews_by_professor_id(self):
+        return await self.repository.get_all_reviews_by_professor_id
+    
+    async def get_all_reviews_by_professor_id(self, id_profesor: str):  # Se añade el argumento
+        return await self.repository.get_all_reviews_by_professor_id(id_profesor) 
+    
     #update
     async def update_review(self, review: ReviewModel):
         return await self.repository.update_review(review)

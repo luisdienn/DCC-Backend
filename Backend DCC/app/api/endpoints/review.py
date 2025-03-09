@@ -20,6 +20,10 @@ async def create_review(review: ReviewResponseSchema, service: ReviewService = D
 async def get_all_reviews(service: ReviewService = Depends(lambda: review_service)):
     return await service.get_all_reviews()
 
+@router.get("/professor/{id_profesor}", response_model=list[ReviewResponseSchema])
+async def get_reviews_by_professor_id(id_profesor: str, service: ReviewService = Depends(lambda: review_service)):
+    return await service.get_all_reviews_by_professor_id(id_profesor)
+
 #Update
 @router.put("/{review_id}", response_model=str)
 async def update_review(review_id: str, review: ReviewResponseSchema, service: ReviewService = Depends(lambda: review_service)):

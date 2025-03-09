@@ -9,10 +9,7 @@ class ProfessorService:
     async def search_professors(self, name: str):
         return await self.repository.get_professors_by_name_or_lastname(name)
     
-
-
     #create
-
     async def create_professor(self, professor: ProfessorModel):
         return await self.repository.create_professor(professor)
     
@@ -23,9 +20,7 @@ class ProfessorService:
     async def get_professors(self):
         return await self.repository.get_all_professors() 
     
-    
     #update
-
     async def update_professor(self, professor_id: str, professor: ProfessorModel):
         return await self.repository.update_professor(professor_id, professor)
     

@@ -16,7 +16,12 @@ class ReviewRepository:
         cursor = self.collection.find({})  # Obtener todos los documentos
         reviews = await cursor.to_list(length=100)  # Limita a 100 resultados por optimización
         return [{**review, "id": str(review["_id"])} for review in reviews]  # Convertir _id a str
-        
+    
+    async def get_all_reviews_by_professor_id(self, professor_id: str):
+        cursor = self.collection.find({"id_profesor": professor_id}) 
+        reviews = await cursor.to_list(length=100)  
+        return [{**review, "id": str(review["_id"])} for review in reviews]  
+
     #Update
     async def update_review(self, review_id: str, review: ReviewCreateSchema):
         await self.collection.update_one({"_id": ObjectId(review_id)}, {"$set": review.dict()})
