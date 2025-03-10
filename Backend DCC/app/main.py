@@ -30,8 +30,6 @@ professor_service = ProfessorService(professor_repo)
 review_service = ReviewService(review_repo)
 course_service = CourseService(course_repo)
 
-app.include_router(api_router, prefix="/api")
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # En producción, cambiar por los dominios permitidos
@@ -39,6 +37,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(api_router, prefix="/api")
+
 
 @app.on_event("startup")
 async def startup():
