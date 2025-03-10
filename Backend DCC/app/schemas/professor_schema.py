@@ -1,12 +1,13 @@
 from pydantic import BaseModel, EmailStr, HttpUrl
 from typing import List
 from datetime import datetime
+from app.models.courses_model import CoursesModel
 
 class ProfessorCreateSchema(BaseModel):
     correo: EmailStr
     nombre: str
     apellidos: str
-    materias: List
+    materias: List[CoursesModel]
 
 class ProfessorResponseSchema(BaseModel):
     id: str

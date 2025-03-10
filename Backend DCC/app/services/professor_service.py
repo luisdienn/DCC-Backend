@@ -10,8 +10,9 @@ class ProfessorService:
         return await self.repository.get_professors_by_name_or_lastname(name)
     
     #create
-    async def create_professor(self, professor: ProfessorModel):
-        return await self.repository.create_professor(professor)
+    async def create_professor(self, professor_data: dict):
+        professor_obj = ProfessorModel(**professor_data)  
+        return await self.repository.create_professor(professor_obj)
     
     #read
     async def get_professor_by_id(self, professor_id: str):
