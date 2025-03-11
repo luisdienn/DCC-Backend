@@ -75,8 +75,19 @@ class ProfessorRepository:
     
     #Update
     async def update_professor(self, professor_id: str, professor: ProfessorCreateSchema):
-        await self.collection.update_one({"_id": ObjectId(professor_id)}, {"$set": professor.dict()})
-        return "El profesor ha sido actualizado con éxito."
+
+        professor["materias"] = [
+        {"id": str(materia["id"]), "nombre": materia["nombre"]}
+        for materia in professor["materias"]
+        ]
+
+
+
+        result = await self.collection.update_one({"_id": ObjectId(professor_id)}, {"$set": professor})
+        
+        return "El profesor ha sido actualizado con éxito." + str(result.raw_result)
+    
+
     
     #Delete
     async def delete_professor(self, professor_id: str):

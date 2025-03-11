@@ -74,8 +74,20 @@ async def get_all_professors(service: ProfessorService = Depends(lambda: profess
 
 #Update
 @router.put("/put/{professor_id}", response_model=str)
-async def update_professor(professor_id: str, professor: ProfessorResponseSchema, service: ProfessorService = Depends(lambda: professor_service)):
-    return await service.update_professor(professor_id, professor)
+async def update_professor(professor_id: str, professor: ProfessorCreateSchema,service: ProfessorService = Depends(lambda: professor_service)):
+    professor_dict = professor.dict()
+
+    if "materias" in professor_dict:
+        professor_dict["materias"] = [
+            {"id": str(materia["id"]), "nombre": materia["nombre"]}
+            for materia in professor_dict["materias"]
+            if isinstance(materia, dict) and "id" in materia and "nombre" in materia
+        ]
+
+
+    result = await service.update_professor(professor_id, professor_dict)
+
+    return f"Profesor con ID {professor_id} actualizado correctamente. ID: {result}"
 
 #Delete
 @router.delete("/delete/{professor_id}", response_model=str)
