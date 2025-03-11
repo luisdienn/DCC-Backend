@@ -38,7 +38,23 @@ class ProfessorRepository:
 
     async def get_professor_by_id(self, professor_id: str):
         professor = await self.collection.find_one({"_id": ObjectId(professor_id)})
-        return {**professor, "id": str(professor["_id"])}
+
+        # Si el profesor no existe, devolvemos None
+        if not professor:
+            return None
+
+        return {
+            "id": str(professor["_id"]),
+            "correo": professor.get("correo", ""),
+            "nombre": professor.get("nombre", ""),
+            "apellidos": professor.get("apellidos", ""),
+            "universidad": professor.get("universidad", "Cenfotec"),
+            "fecha_creacion": professor.get("fecha_creacion", ""),
+            "materias": [
+                {"id": str(materia["id"]), "nombre": materia["nombre"]}
+                for materia in professor.get("materias", []) if isinstance(materia, dict) and "nombre" in materia
+            ]
+        }
     
     async def get_all_professors(self):
         cursor = self.collection.find({})  # Obtener todos los documentos
@@ -59,8 +75,19 @@ class ProfessorRepository:
     
     #Update
     async def update_professor(self, professor_id: str, professor: ProfessorCreateSchema):
-        await self.collection.update_one({"_id": ObjectId(professor_id)}, {"$set": professor.dict()})
-        return "El profesor ha sido actualizado con éxito."
+
+        professor["materias"] = [
+        {"id": str(materia["id"]), "nombre": materia["nombre"]}
+        for materia in professor["materias"]
+        ]
+
+
+
+        result = await self.collection.update_one({"_id": ObjectId(professor_id)}, {"$set": professor})
+        
+        return "El profesor ha sido actualizado con éxito." + str(result.raw_result)
+    
+
     
     #Delete
     async def delete_professor(self, professor_id: str):

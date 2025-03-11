@@ -34,8 +34,6 @@ async def create_professor(professor: ProfessorCreateSchema, service: ProfessorS
             if isinstance(materia, dict) and "id" in materia and "nombre" in materia
         ]
 
-    print("DATOS QUE SE GUARDAN:", professor_dict)  # DEPURACIÓN
-
     result = await service.create_professor(professor_dict)
     return f"Profesor creado con éxito. ID: {result}"
 
@@ -44,7 +42,12 @@ async def create_professor(professor: ProfessorCreateSchema, service: ProfessorS
 #Read
 @router.get("/getById/{professor_id}", response_model=ProfessorResponseSchema)
 async def get_professor(professor_id: str, service: ProfessorService = Depends(lambda: professor_service)):
-    return await service.get_professor_by_id(professor_id)
+    professor = await service.get_professor_by_id(professor_id)
+
+    if professor is None:
+        raise HTTPException(status_code=404, detail="Profesor no encontrado")
+    
+    return professor
 
 
 @router.get("/getAll", response_model=list[ProfessorResponseSchema])
@@ -71,8 +74,20 @@ async def get_all_professors(service: ProfessorService = Depends(lambda: profess
 
 #Update
 @router.put("/put/{professor_id}", response_model=str)
-async def update_professor(professor_id: str, professor: ProfessorResponseSchema, service: ProfessorService = Depends(lambda: professor_service)):
-    return await service.update_professor(professor_id, professor)
+async def update_professor(professor_id: str, professor: ProfessorCreateSchema,service: ProfessorService = Depends(lambda: professor_service)):
+    professor_dict = professor.dict()
+
+    if "materias" in professor_dict:
+        professor_dict["materias"] = [
+            {"id": str(materia["id"]), "nombre": materia["nombre"]}
+            for materia in professor_dict["materias"]
+            if isinstance(materia, dict) and "id" in materia and "nombre" in materia
+        ]
+
+
+    result = await service.update_professor(professor_id, professor_dict)
+
+    return f"Profesor con ID {professor_id} actualizado correctamente. ID: {result}"
 
 #Delete
 @router.delete("/delete/{professor_id}", response_model=str)
