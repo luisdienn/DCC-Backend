@@ -10,7 +10,6 @@ class ProfessorRepository:
         self.collection = collection  # Inyección de dependencia
 
 
-
     async def get_professors_by_name_or_lastname(self, name: str) -> List[Dict]:
         palabras = [re.escape(palabra) for palabra in name.strip().split() if palabra]
 
@@ -22,8 +21,9 @@ class ProfessorRepository:
 
         cursor = self.collection.find({"$or": criterios})
 
-        resultados = await cursor.to_list(length=25)
+        resultados = await cursor.to_list(length=10)  # Limita a 10 resultados
 
+        # Aseguramos que _id se convierte en id
         profesores = [
             {
                 **professor,
@@ -32,9 +32,6 @@ class ProfessorRepository:
         ]
 
         return profesores
-
-
-    
 
     #Create
     async def create_professor(self, professor: ProfessorCreateSchema):
@@ -75,13 +72,13 @@ class ProfessorRepository:
 
         return [
             {
-                **professor, 
+                **professor,
                 "id": str(professor["_id"]),  # Convertir ObjectId a string
                 "materias": [
                     {"id": materia["id"], "nombre": materia["nombre"]}
                     for materia in professor.get("materias", []) if isinstance(materia, dict) and "nombre" in materia
                 ]  # Asegurar que las materias sean devueltas correctamente
-            } 
+            }
             for professor in professors
         ]
 
