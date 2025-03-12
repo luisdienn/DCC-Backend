@@ -2,24 +2,37 @@ from motor.motor_asyncio import AsyncIOMotorCollection
 from app.models.professor_model import ProfessorModel
 from app.schemas.professor_schema import ProfessorCreateSchema
 from bson import ObjectId
+import re
+from typing import List, Dict
 
 class ProfessorRepository:
     def __init__(self, collection: AsyncIOMotorCollection):
         self.collection = collection  # Inyección de dependencia
 
-    async def get_professors_by_name_or_lastname(self, name: str):
-        palabras = name.split()  # Divide "Juan Pérez" en ["Juan", "Pérez"]
 
-        criterios = []
-        for palabra in palabras:
-            criterios.append({"nombre": {"$regex": palabra, "$options": "i"}})
-            criterios.append({"apellidos": {"$regex": palabra, "$options": "i"}})
 
-        cursor = self.collection.find({
-            "$or": criterios  # Busca coincidencias en nombre o apellido
-        })
+    async def get_professors_by_name_or_lastname(self, name: str) -> List[Dict]:
+        palabras = [re.escape(palabra) for palabra in name.strip().split() if palabra]
 
-        return await cursor.to_list(length=10)
+        if not palabras:
+            return []
+
+        criterios = [{"nombre": {"$regex": palabra, "$options": "i"}} for palabra in palabras] + \
+                    [{"apellidos": {"$regex": palabra, "$options": "i"}} for palabra in palabras]
+
+        cursor = self.collection.find({"$or": criterios})
+
+        resultados = await cursor.to_list(length=25)
+
+        profesores = [
+            {
+                **professor,
+                "id": str(professor["_id"]),  # Convertir ObjectId a string
+            } for professor in resultados
+        ]
+
+        return profesores
+
 
     
 
