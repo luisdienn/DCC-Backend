@@ -7,4 +7,5 @@ class ReviewModel(BaseModel):
     etiquetas: List[str]
     comentario: str
     id_profesor: str
+    materia: str
     fecha_creacion: datetime = Field(default_factory=datetime.utcnow)
