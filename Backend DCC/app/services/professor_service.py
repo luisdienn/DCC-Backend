@@ -19,7 +19,7 @@ class ProfessorService:
         return await self.repository.get_professor_by_id(professor_id)
     
     async def get_professors(self):
-        return await self.repository.get_all_professors() 
+        return await self.repository.get_all_professors()
     
     #update
     async def update_professor(self, professor_id: str, professor: ProfessorModel):
