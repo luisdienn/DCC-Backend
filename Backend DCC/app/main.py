@@ -37,7 +37,7 @@ course_service = CourseService(course_repo)
 # 📌 Middleware de CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  
+    allow_origins=["*, localhost:3000"],  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -50,7 +50,7 @@ app.include_router(auth_router, prefix="/auth")
 @app.on_event("startup")
 async def startup():
     print("Conectado a MongoDB...")
-    print("Servidor corriendo en http://127.0.0.1:8000")
+    print("Servidor corriendo en http://127.0.0.1:8080")
 
 @app.on_event("shutdown")
 async def shutdown():

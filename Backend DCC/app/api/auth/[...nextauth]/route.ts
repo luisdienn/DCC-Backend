@@ -11,7 +11,7 @@ const handler = NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async signIn({ user }) {
-      const response = await fetch("http://127.0.0.1:8000/auth/google-login", {
+      const response = await fetch("http://127.0.0.1:8080/auth/google-login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
