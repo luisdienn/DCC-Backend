@@ -49,7 +49,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",                     # Desarrollo local
-        "https://dcc-frontend-eight.vercel.app"      # Producción en Vercel
+        "https://dcc-frontend-git-main-luisdiegos-projects.vercel.app"      # Producción en Vercel
     ],
     allow_credentials=True,
     allow_methods=["*"],
