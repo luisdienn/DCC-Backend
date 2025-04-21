@@ -37,25 +37,13 @@ review_service = ReviewService(review_repo)
 course_service = CourseService(course_repo)
 
 # 📌 Middleware de CORS
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=["*"],  
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",                     # Desarrollo local
-        "https://dcc-frontend-git-main-luisdiegos-projects.vercel.app"      # Producción en Vercel
-    ],
+    allow_origins=["*"],  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 # 📌 Incluir las rutas
 app.include_router(api_router, prefix="/api")
